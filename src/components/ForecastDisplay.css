@@ -1,0 +1,44 @@
+.forecast-container {
+    padding: 16px;
+    background-color: #f0f8ff;
+  }
+  
+  .forecast-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  
+  .forecast-day {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1 1 calc(33.333% - 16px);
+    min-width: 250px;
+  }
+  
+  .forecast-day h3 {
+    margin-top: 0;
+    font-size: 1.25em;
+    color: #007bff;
+  }
+  
+  .daypart-details {
+    margin-top: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    padding: 8px;
+  }
+  
+  .daypart-details h4 {
+    margin: 0 0 8px;
+    font-size: 1.1em;
+    color: #17a2b8;
+  }
+  
+  .daypart-details p {
+    margin: 4px 0;
+    font-size: 0.9em;
+  }
+  
