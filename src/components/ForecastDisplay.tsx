@@ -1,6 +1,7 @@
 import React from 'react';
 import { ForecastData } from '../data/types';
 import './ForecastDisplay.css';
+import { IonLabel } from '@ionic/react';
 
 interface ForecastDisplayProps {
   forecast: ForecastData;
@@ -9,30 +10,24 @@ interface ForecastDisplayProps {
 const ForecastDisplay: React.FC<ForecastDisplayProps> = ({ forecast }) => {
   return (
     <div className="forecast-container">
-      <h2>Pronóstico del Clima</h2>
+      
       
       <div className="forecast-summary">
         {forecast.dayOfWeek.map((day, index) => (
-          <div key={index} className="forecast-day">
+          <IonLabel key={index} className="forecast-day ion-text-center">
             <h3>{day}</h3>
-            <p>
-              <strong>Máx: </strong> {forecast.calendarDayTemperatureMax[index]}°C
-            </p>
-            <p>
-              <strong>Mín: </strong> {forecast.calendarDayTemperatureMin[index]}°C
-            </p>
-            <p>
-              <strong>Clima: </strong> {forecast.narrative[index]}
-            </p>
-            <p>
-              <strong>Amanecer: </strong> {forecast.sunriseTimeLocal[index]}
-            </p>
-            <p>
-              <strong>Atardecer: </strong> {forecast.sunsetTimeLocal[index]}
-            </p>
+            <h1>
+              <strong>{forecast.calendarDayTemperatureMax[index]}°C</strong>
+            </h1>
+            <h2>
+               {forecast.calendarDayTemperatureMin[index]}°C
+            </h2>
+            <h4>
+              {forecast.narrative[index]}
+            </h4>
 
             {/* Información detallada del daypart */}
-            {forecast.daypart[0].daypartName.map((part, i) => (
+            {false && forecast.daypart[0].daypartName.map((part, i) => (
               <div key={i} className="daypart-details">
                 <h4>{part}</h4>
                 <p>
@@ -52,8 +47,8 @@ const ForecastDisplay: React.FC<ForecastDisplayProps> = ({ forecast }) => {
                 </p>
               </div>
             ))}
-          </div>
-        ))}
+          </IonLabel>
+        )).splice(1)}
       </div>
     </div>
   );
