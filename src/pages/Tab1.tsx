@@ -1,78 +1,101 @@
-import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonLabel, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
-import { useEffect, useState } from 'react';
-import { SkeletonDashboard } from '../components/SkeletonDashboard';
-import { refreshOutline } from 'ionicons/icons';
-import { CurrentWeather } from '../components/CurrentWeather';
-import { WeatherData } from '../data/types';
+"use client"
+
+import {
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  IonRefresher,
+  IonRefresherContent,
+  IonLabel,
+} from "@ionic/react"
+import { useEffect, useState } from "react"
+import { SkeletonDashboard } from "../components/SkeletonDashboard"
+import { refreshOutline } from "ionicons/icons"
+import { CurrentWeather } from "../components/CurrentWeather"
+import type { WeatherData, ForecastData } from "../data/types"
+import ForecastDisplay from "../components/ForecastDisplay"
 
 const Tab1 = () => {
-
-  const [currentWeather, setCurrentWeather] = useState<WeatherData | null>(null);
-  const [localTime, setLocalTime] = useState<string>("");
+  const [currentWeather, setCurrentWeather] = useState<WeatherData | null>(null)
+  const [forecast, setForecast] = useState<ForecastData | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    getCurrentPosition();
-  }, []);
+    fetchWeatherData()
+  }, [])
 
-  const getCurrentPosition = async () => {
-    setCurrentWeather(null);
+  const fetchWeatherData = async () => {
+    setLoading(true)
+    try {
+      // Fetch current weather
+      const currentResponse = await fetch("https://estacion-metereologica-server.onrender.com/api/current-weather")
+      const currentData = await currentResponse.json()
 
-    const coordenadaEstatica = {
-      latitude: '-25.483902792541123',
-      longitude: '-54.671193362970264'
-    };
-    getAddress(coordenadaEstatica);
+      if (currentData.observations && currentData.observations[0]) {
+        setCurrentWeather(currentData)
+      }
+
+      // Fetch forecast data
+      const forecastResponse = await fetch("https://estacion-metereologica-server.onrender.com/api/forecast")
+      const forecastData = await forecastResponse.json()
+
+      if (forecastData) {
+        setForecast(forecastData)
+      }
+    } catch (error) {
+      console.error("Error fetching weather data:", error)
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const getAddress = async (coords: { latitude: string, longitude: string }) => {
-    const query = `${coords.latitude},${coords.longitude}`;
-    const response = await fetch(`https://estacion-metereologica-server.onrender.com/api/current-weather`);
-    const data = await response.json();
-    
-    if (data.observations && data.observations[0]) {
-      setCurrentWeather(data);
-      setLocalTime(data.observations[0].obsTimeLocal); // Actualiza la hora local
-    }
+  const handleRefresh = async (event: CustomEvent) => {
+    await fetchWeatherData()
+    event.detail.complete()
   }
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Clima</IonTitle>
+          <IonTitle>Estación Meteorológica</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={() => getCurrentPosition()}>
-              <IonIcon icon={refreshOutline} color="primary" />
+            <IonButton onClick={fetchWeatherData}>
+              <IonIcon icon={refreshOutline} />
             </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-      
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Casa</IonTitle>
-          </IonToolbar>
-        </IonHeader>
 
-        <IonRow className="ion-margin-start ion-margin-end ion-justify-content-center ion-text-center">
-          <IonCol size="12">
-            {localTime && 
-              <IonLabel className='ion-padding'>
-                <br/><br/>
-                <h4>{`Última Actualización: ${(new Date(localTime)).toTimeString().split(' ')[0]}`}</h4>
+      <IonContent>
+        <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
+          <IonRefresherContent></IonRefresherContent>
+        </IonRefresher>
+
+        {loading ? (
+          <SkeletonDashboard />
+        ) : (
+          <>
+            {currentWeather && <CurrentWeather currentWeather={currentWeather} />}
+            {forecast && 
+            <>
+              <IonLabel className="ion-text-center">
+                <h1>Pronóstico del Tiempo</h1>
               </IonLabel>
+              <ForecastDisplay forecast={forecast} />
+            </>
             }
-          </IonCol>
-        </IonRow>
-
-        <div style={{ marginTop: "-1.5rem" }}>
-          {currentWeather ? <CurrentWeather currentWeather={currentWeather} /> : <SkeletonDashboard />}
-        </div>
+          </>
+        )}
       </IonContent>
     </IonPage>
-  );
-};
+  )
+}
 
-export default Tab1;
+export default Tab1
 
