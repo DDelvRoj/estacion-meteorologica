@@ -1,62 +1,85 @@
-import { IonCard, IonCardContent, IonGrid, IonRow, IonText, IonCardTitle, IonLabel } from "@ionic/react";
-import { WeatherProperty } from "./WeatherProperty";
-import { WeatherData } from "../data/types";
+import type React from "react"
+import { IonCard, IonCardContent, IonGrid, IonRow, IonCol, IonText, IonIcon } from "@ionic/react"
+import type { WeatherData } from "../data/types"
+import { locationOutline } from "ionicons/icons"
+import { WeatherProperty } from "./WeatherProperty"
 
 interface CurrentWeatherProps {
-  currentWeather: WeatherData;
+  currentWeather: WeatherData
 }
 
 export const CurrentWeather: React.FC<CurrentWeatherProps> = ({ currentWeather }) => {
-  const observation = currentWeather.observations[0];
+  const observation = currentWeather.observations[0]
+
+  // Determine weather condition based on temperature
+  const getWeatherCondition = (temp: number) => {
+    if (temp > 30) return "Parcialmente Nublado"
+    if (temp > 25) return "Soleado"
+    if (temp > 20) return "Despejado"
+    if (temp > 15) return "Nublado"
+    return "Fresco"
+  }
+
+  const weatherCondition = getWeatherCondition(observation.metric.temp)
 
   return (
-    <IonGrid>
-      <IonCard>
-        <IonCardContent className="ion-text-center">
+    <div className="ion-padding">
+      <IonCard className="ion-no-margin">
+        <IonCardContent>
+          <div className="ion-text-center">
+            <h1
+              style={{
+                fontSize: "1.8rem",
+                fontWeight: "bold",
+                color: "var(--ion-color-primary)",
+                margin: "0 0 8px 0",
+              }}
+            >
+              Estación Meteorológica FPUNE
+            </h1>
 
-          {
-            observation.neighborhood && (
-              <IonLabel color="primary" >
-                <h1  style={{ fontWeight: "bold" }}>Facultad Politécnica</h1>
-              </IonLabel>
-            )
-          }
-        
-          <IonText color="primary">
-            <h2>{observation.neighborhood}, <span style={{ color: "gray" }}>{observation.country}</span></h2>
-          </IonText>
+            <div className="location-text">
+              <IonIcon icon={locationOutline} />
+              <span>Ciudad del Este, Paraguay</span>
+            </div>
 
-          <div className="ion-margin-top">
-            {/* Aquí puedes añadir un ícono condicional o usar uno específico */}
-            <IonText color="dark">
-              <h1>Condiciones Actuales</h1>
-            </IonText>
-            
             <IonText color="medium">
-              <p>{new Date(observation.obsTimeLocal).toLocaleDateString('es-ES', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}</p>
+              <p style={{ margin: "4px 0 16px 0" }}>
+                Última Actualización:{" "}
+                {new Date(observation.obsTimeLocal).toLocaleTimeString("es-ES", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </p>
             </IonText>
+
+            <div className="temperature-large">{observation.metric.temp.toFixed(1)}°C</div>
+
+            <div className="weather-condition">{weatherCondition}</div>
           </div>
 
-          <IonCardTitle style={{ fontSize: "3rem" }} className="ion-margin-top">{observation.metric.temp}&#8451;</IonCardTitle>
-
-          <IonGrid className="ion-margin-top">
+          <IonGrid>
             <IonRow>
-              <WeatherProperty type="wind" currentWeather={currentWeather} />
-              <WeatherProperty type="feelsLike" currentWeather={currentWeather} />
-            </IonRow>
+              <IonCol size="6" sizeMd="3">
+                <WeatherProperty type="feelsLike" currentWeather={currentWeather} />
+              </IonCol>
 
-            <IonRow className="ion-margin-top">
-              <WeatherProperty type="indexUV" currentWeather={currentWeather} />
-              <WeatherProperty type="pressure" currentWeather={currentWeather} />
+              <IonCol size="6" sizeMd="3">
+                <WeatherProperty type="wind" currentWeather={currentWeather} />
+              </IonCol>
+
+              <IonCol size="6" sizeMd="3">
+                <WeatherProperty type="indexUV" currentWeather={currentWeather}/>
+              </IonCol>
+
+              <IonCol size="6" sizeMd="3">
+                <WeatherProperty type="pressure" currentWeather={currentWeather}  />
+              </IonCol>
             </IonRow>
           </IonGrid>
         </IonCardContent>
       </IonCard>
-    </IonGrid>
-  );
-};
+    </div>
+  )
+}
+

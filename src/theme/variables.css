@@ -1,2 +1,214 @@
-/* For information on how to create your own theme, please see:
+/* Ionic Variables and Theming. For more info, please see:
 http://ionicframework.com/docs/theming/ */
+
+:root {
+    /** primary **/
+    --ion-color-primary: #003366;
+    --ion-color-primary-rgb: 0, 51, 102;
+    --ion-color-primary-contrast: #ffffff;
+    --ion-color-primary-contrast-rgb: 255, 255, 255;
+    --ion-color-primary-shade: #002d5a;
+    --ion-color-primary-tint: #1a4776;
+  
+    /** secondary **/
+    --ion-color-secondary: #3dc2ff;
+    --ion-color-secondary-rgb: 61, 194, 255;
+    --ion-color-secondary-contrast: #ffffff;
+    --ion-color-secondary-contrast-rgb: 255, 255, 255;
+    --ion-color-secondary-shade: #36abe0;
+    --ion-color-secondary-tint: #50c8ff;
+  
+    /** tertiary **/
+    --ion-color-tertiary: #5260ff;
+    --ion-color-tertiary-rgb: 82, 96, 255;
+    --ion-color-tertiary-contrast: #ffffff;
+    --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+    --ion-color-tertiary-shade: #4854e0;
+    --ion-color-tertiary-tint: #6370ff;
+  
+    /** success **/
+    --ion-color-success: #2dd36f;
+    --ion-color-success-rgb: 45, 211, 111;
+    --ion-color-success-contrast: #ffffff;
+    --ion-color-success-contrast-rgb: 255, 255, 255;
+    --ion-color-success-shade: #28ba62;
+    --ion-color-success-tint: #42d77d;
+  
+    /** warning **/
+    --ion-color-warning: #ffc409;
+    --ion-color-warning-rgb: 255, 196, 9;
+    --ion-color-warning-contrast: #000000;
+    --ion-color-warning-contrast-rgb: 0, 0, 0;
+    --ion-color-warning-shade: #e0ac08;
+    --ion-color-warning-tint: #ffca22;
+  
+    /** danger **/
+    --ion-color-danger: #eb445a;
+    --ion-color-danger-rgb: 235, 68, 90;
+    --ion-color-danger-contrast: #ffffff;
+    --ion-color-danger-contrast-rgb: 255, 255, 255;
+    --ion-color-danger-shade: #cf3c4f;
+    --ion-color-danger-tint: #ed576b;
+  
+    /** dark **/
+    --ion-color-dark: #222428;
+    --ion-color-dark-rgb: 34, 36, 40;
+    --ion-color-dark-contrast: #ffffff;
+    --ion-color-dark-contrast-rgb: 255, 255, 255;
+    --ion-color-dark-shade: #1e2023;
+    --ion-color-dark-tint: #383a3e;
+  
+    /** medium **/
+    --ion-color-medium: #92949c;
+    --ion-color-medium-rgb: 146, 148, 156;
+    --ion-color-medium-contrast: #ffffff;
+    --ion-color-medium-contrast-rgb: 255, 255, 255;
+    --ion-color-medium-shade: #808289;
+    --ion-color-medium-tint: #9d9fa6;
+  
+    /** light **/
+    --ion-color-light: #f4f5f8;
+    --ion-color-light-rgb: 244, 245, 248;
+    --ion-color-light-contrast: #000000;
+    --ion-color-light-contrast-rgb: 0, 0, 0;
+    --ion-color-light-shade: #d7d8da;
+    --ion-color-light-tint: #f5f6f9;
+  
+    /* Custom colors */
+    --app-background: #ffffff;
+    --card-background: #ffffff;
+    --text-primary: #003366;
+    --text-secondary: #666666;
+    --border-color: #e0e0e0;
+  }
+  
+  body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--app-background);
+  }
+  
+  ion-content {
+    --background: #f5f7fa;
+  }
+  
+  ion-card {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin: 12px;
+  }
+  
+  ion-toolbar {
+    --background: var(--ion-color-primary);
+    --color: white;
+  }
+  
+  .weather-card {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--card-background);
+  }
+  
+  .weather-icon {
+    font-size: 2.5rem;
+    color: var(--ion-color-primary);
+    margin-bottom: 8px;
+  }
+  
+  .weather-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    margin: 4px 0;
+  }
+  
+  .weather-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+  
+  .temperature-large {
+    font-size: 4rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    line-height: 1;
+    margin: 16px 0;
+  }
+  
+  .weather-condition {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+  
+  .location-text {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+  
+  .location-text ion-icon {
+    margin-right: 6px;
+  }
+  
+  .tab-button {
+    --background: var(--ion-color-primary);
+    --color: white;
+    --border-radius: 0;
+    margin: 0;
+    flex: 1;
+  }
+  
+  .tab-button.active {
+    --background: var(--ion-color-primary-shade);
+  }
+  
+  .forecast-container {
+    display: flex;
+    overflow-x: auto;
+    padding: 16px;
+    gap: 16px;
+  }
+  
+  .forecast-card {
+    min-width: 120px;
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--card-background);
+  }
+  
+  .forecast-day {
+    font-weight: bold;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+  
+  .forecast-temp {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    margin: 8px 0;
+  }
+  
+  .forecast-min-temp {
+    font-size: 1rem;
+    color: var(--text-secondary);
+  }
+  
+  .forecast-rain {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 8px;
+  }
+  
+  
