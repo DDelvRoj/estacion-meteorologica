@@ -210,5 +210,30 @@ http://ionicframework.com/docs/theming/ */
     color: var(--text-secondary);
     margin-top: 8px;
   }
+
+  /* ── Station Logo (Tab 1) ── */
+  .station-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 12px;
+    display: block;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    border: 3px solid var(--ion-color-primary, #3880ff);
+    background: #fff;
+    transition: transform 0.3s ease;
+  }
+
+  .station-logo:hover {
+    transform: scale(1.05);
+  }
+
+  @media (min-width: 768px) {
+    .station-logo {
+      width: 100px;
+      height: 100px;
+    }
+  }
   
   
