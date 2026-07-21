@@ -1,44 +1,700 @@
-.forecast-container {
-    padding: 16px;
-    background-color: #f0f8ff;
-  }
-  
-  .forecast-summary {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-  
-  .forecast-day {
-    background-color: #ffffff;
-    border-radius: 8px;
-    padding: 12px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    flex: 1 1 calc(33.333% - 16px);
-    min-width: 250px;
-  }
-  
-  .forecast-day h3 {
-    margin-top: 0;
-    font-size: 1.25em;
-    color: #007bff;
-  }
-  
-  .daypart-details {
-    margin-top: 10px;
-    background-color: #f8f9fa;
-    border-radius: 4px;
+/* ════════════════════════════════════════════
+   ForecastDisplay — Premium Responsive Design
+   ════════════════════════════════════════════ */
+
+/* ── ROOT ── */
+.fc-root {
+  padding: 12px;
+  max-width: 860px;
+  margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.fc-empty {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--ion-color-medium, #999);
+}
+
+/* ═══════════════════════════
+   HERO CARD
+   ═══════════════════════════ */
+.fc-hero {
+  border-radius: 24px;
+  padding: 24px 20px 20px;
+  color: #fff;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.20);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+/* subtle glass noise overlay */
+.fc-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.fc-hero__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
+}
+
+.fc-hero__info {
+  flex: 1;
+}
+
+.fc-hero__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.fc-hero__logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255,255,255,0.4);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.fc-hero__badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.22);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 3px 14px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.fc-hero__day {
+  font-size: 1.65rem;
+  font-weight: 800;
+  margin: 8px 0 2px;
+  line-height: 1.15;
+}
+
+.fc-hero__condition {
+  font-size: 0.9rem;
+  opacity: 0.88;
+  margin: 0;
+  font-weight: 500;
+}
+
+.fc-hero__icon {
+  font-size: 4.2rem;
+  opacity: 0.9;
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.25));
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.fc-hero__temps {
+  display: flex;
+  align-items: baseline;
+  margin: 14px 0 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.fc-hero__temp-big {
+  font-size: 3.8rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.fc-hero__temp-small {
+  font-size: 1.35rem;
+  font-weight: 500;
+  opacity: 0.8;
+  margin-left: 6px;
+}
+
+.fc-hero__narrative {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  opacity: 0.92;
+  margin: 8px 0 16px;
+  background: rgba(0,0,0,0.12);
+  padding: 10px 14px;
+  border-radius: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.fc-hero__metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.fc-hero__metric {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.14);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 12px;
+  padding: 8px 10px;
+}
+
+.fc-hero__metric ion-icon {
+  font-size: 1.25rem;
+  opacity: 0.9;
+}
+
+.fc-hero__metric-label {
+  display: block;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  opacity: 0.75;
+  font-weight: 600;
+}
+
+.fc-hero__metric-value {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+/* ═══════════════════════════
+   ASTRO BAR (TODAY)
+   ═══════════════════════════ */
+.fc-astro-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: var(--ion-card-background, #fff);
+  border-radius: 16px;
+  padding: 12px 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  margin-bottom: 20px;
+  border: 1px solid rgba(0,0,0,0.05);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.fc-astro-bar__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.fc-astro-bar__icon {
+  font-size: 1.35rem;
+  flex-shrink: 0;
+}
+
+.fc-astro-bar__icon--sun { color: #f59e0b; }
+.fc-astro-bar__icon--sunset { color: #ef4444; }
+.fc-astro-bar__icon--moon { color: #8b5cf6; }
+
+.fc-astro-bar__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.fc-astro-bar__label {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--ion-color-medium, #888);
+  font-weight: 600;
+}
+
+.fc-astro-bar__time {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ion-color-dark, #222);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fc-astro-bar__divider {
+  width: 1px;
+  height: 28px;
+  background: rgba(0,0,0,0.08);
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════
+   SECTION TITLE
+   ═══════════════════════════ */
+.fc-section-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ion-color-dark, #222);
+  margin: 0 4px 12px;
+  letter-spacing: -0.2px;
+}
+
+/* ═══════════════════════════
+   DAILY FORECAST CARDS
+   ═══════════════════════════ */
+.fc-days {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.fc-day-card {
+  border-radius: 16px;
+  margin: 0 0 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  border: 1px solid rgba(0,0,0,0.05);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.fc-day-card:active {
+  transform: scale(0.99);
+}
+
+.fc-day-card__content {
+  padding: 14px !important;
+}
+
+/* --- Main Row: icon + name + temp bar + precip --- */
+.fc-day-card__row-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fc-day-card__left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+.fc-day-card__icon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+
+.fc-day-card__name-block {
+  display: flex;
+  flex-direction: column;
+  min-width: 72px;
+}
+
+.fc-day-card__name {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--ion-color-dark, #222);
+  line-height: 1.2;
+}
+
+.fc-day-card__phrase {
+  font-size: 0.68rem;
+  color: var(--ion-color-medium, #888);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 110px;
+}
+
+.fc-day-card__center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.fc-day-card__temp {
+  font-size: 0.85rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  width: 28px;
+  text-align: center;
+}
+
+.fc-day-card__temp--min {
+  color: #60a5fa;
+}
+
+.fc-day-card__temp--max {
+  color: #f97316;
+}
+
+/* Temperature gradient bar */
+.fc-day-card__temp-bar-track {
+  flex: 1;
+  height: 6px;
+  background: rgba(0,0,0,0.06);
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+  min-width: 40px;
+}
+
+.fc-day-card__temp-bar-fill {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #60a5fa 0%, #fbbf24 50%, #f97316 100%);
+  transition: all 0.4s ease;
+}
+
+.fc-day-card__right {
+  flex-shrink: 0;
+}
+
+/* Precip badges */
+.fc-precip-badge {
+  font-size: 0.7rem;
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-weight: 700;
+  --background: transparent;
+  --color: inherit;
+}
+
+.fc-precip-badge--low {
+  background: rgba(96,165,250,0.15);
+  color: #3b82f6;
+}
+
+.fc-precip-badge--med {
+  background: rgba(59,130,246,0.2);
+  color: #2563eb;
+}
+
+.fc-precip-badge--high {
+  background: rgba(37,99,235,0.25);
+  color: #1d4ed8;
+}
+
+/* --- Daypart Details --- */
+.fc-day-card__details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.fc-dp {
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.fc-dp--day {
+  background: rgba(251,191,36,0.07);
+  border: 1px solid rgba(251,191,36,0.18);
+}
+
+.fc-dp--night {
+  background: rgba(99,102,241,0.07);
+  border: 1px solid rgba(99,102,241,0.18);
+}
+
+.fc-dp__header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.fc-dp__icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.fc-dp__icon--day { color: #f59e0b; }
+.fc-dp__icon--night { color: #6366f1; }
+
+.fc-dp__name {
+  font-size: 0.72rem;
+  font-weight: 700;
+  flex: 1;
+  color: var(--ion-color-dark, #333);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.fc-dp__temp {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--ion-color-dark, #222);
+}
+
+.fc-dp__metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.fc-dp__metric {
+  font-size: 0.72rem;
+  color: var(--ion-color-step-650, #555);
+}
+
+/* UV color levels */
+.fc-uv.uv-low { color: #22c55e; }
+.fc-uv.uv-moderate { color: #f59e0b; }
+.fc-uv.uv-high { color: #ef4444; }
+.fc-uv.uv-extreme { color: #9333ea; }
+
+/* --- Astro mini row --- */
+.fc-day-card__astro {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(0,0,0,0.07);
+  font-size: 0.72rem;
+  color: var(--ion-color-medium, #888);
+  flex-wrap: wrap;
+}
+
+.fc-day-card__astro span {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.fc-day-card__astro-icon {
+  font-size: 0.8rem;
+  color: var(--ion-color-medium, #888);
+}
+
+.fc-day-card__moon-phase {
+  font-style: italic;
+  color: #8b5cf6;
+}
+
+.fc-day-card__rain-mm {
+  font-weight: 700;
+  color: #3b82f6;
+}
+
+/* ═══════════════════════════
+   RESPONSIVE — MOBILE FIRST
+   ═══════════════════════════ */
+
+/* Small phones */
+@media (max-width: 374px) {
+  .fc-root {
     padding: 8px;
   }
-  
-  .daypart-details h4 {
-    margin: 0 0 8px;
-    font-size: 1.1em;
-    color: #17a2b8;
+
+  .fc-hero {
+    padding: 18px 14px 16px;
+    border-radius: 18px;
   }
-  
-  .daypart-details p {
-    margin: 4px 0;
-    font-size: 0.9em;
+
+  .fc-hero__day {
+    font-size: 1.3rem;
   }
-  
+
+  .fc-hero__temp-big {
+    font-size: 3rem;
+  }
+
+  .fc-hero__icon {
+    font-size: 3rem;
+  }
+
+  .fc-hero__metrics {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .fc-hero__metric {
+    padding: 6px 8px;
+  }
+
+  .fc-hero__logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .fc-day-card__details {
+    grid-template-columns: 1fr;
+  }
+
+  .fc-day-card__phrase {
+    display: none;
+  }
+
+  .fc-astro-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .fc-astro-bar__divider {
+    display: none;
+  }
+}
+
+/* Standard phones (375–767px) */
+@media (min-width: 375px) and (max-width: 767px) {
+  .fc-day-card__details {
+    grid-template-columns: 1fr;
+  }
+
+  .fc-day-card__phrase {
+    max-width: 90px;
+  }
+}
+
+/* Tablets & small desktops (768px+) */
+@media (min-width: 768px) {
+  .fc-root {
+    padding: 20px;
+  }
+
+  .fc-hero {
+    padding: 32px 28px 24px;
+    border-radius: 28px;
+  }
+
+  .fc-hero__day {
+    font-size: 2rem;
+  }
+
+  .fc-hero__temp-big {
+    font-size: 4.5rem;
+  }
+
+  .fc-hero__icon {
+    font-size: 5rem;
+  }
+
+  .fc-hero__logo {
+    width: 60px;
+    height: 60px;
+  }
+
+  .fc-hero__metrics {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .fc-day-card {
+    border-radius: 18px;
+  }
+
+  .fc-day-card__name-block {
+    min-width: 100px;
+  }
+
+  .fc-day-card__phrase {
+    max-width: 160px;
+  }
+
+  .fc-day-card__details {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .fc-astro-bar {
+    padding: 14px 24px;
+    border-radius: 18px;
+  }
+}
+
+/* Large desktops (1024px+) */
+@media (min-width: 1024px) {
+  .fc-days {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .fc-day-card {
+    margin: 0;
+  }
+
+  .fc-hero__metrics {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ═══════════════════════════
+   DARK MODE SUPPORT
+   ═══════════════════════════ */
+@media (prefers-color-scheme: dark) {
+  .fc-astro-bar {
+    background: var(--ion-card-background, #1e1e1e);
+    border-color: rgba(255,255,255,0.08);
+  }
+
+  .fc-astro-bar__time {
+    color: #e5e7eb;
+  }
+
+  .fc-day-card {
+    border-color: rgba(255,255,255,0.06);
+  }
+
+  .fc-day-card__temp-bar-track {
+    background: rgba(255,255,255,0.1);
+  }
+
+  .fc-day-card__astro {
+    border-top-color: rgba(255,255,255,0.08);
+    color: #9ca3af;
+  }
+
+  .fc-dp--day {
+    background: rgba(251,191,36,0.1);
+    border-color: rgba(251,191,36,0.2);
+  }
+
+  .fc-dp--night {
+    background: rgba(99,102,241,0.1);
+    border-color: rgba(99,102,241,0.2);
+  }
+
+  .fc-precip-badge--low {
+    background: rgba(96,165,250,0.2);
+  }
+  .fc-precip-badge--med {
+    background: rgba(59,130,246,0.25);
+  }
+  .fc-precip-badge--high {
+    background: rgba(37,99,235,0.3);
+  }
+}
+
+/* Ion dark mode class override */
+body.dark .fc-astro-bar,
+.ios body.dark .fc-astro-bar,
+.md body.dark .fc-astro-bar {
+  background: var(--ion-card-background, #1e1e1e);
+  border-color: rgba(255,255,255,0.08);
+}
+
+body.dark .fc-astro-bar__time,
+.ios body.dark .fc-astro-bar__time,
+.md body.dark .fc-astro-bar__time {
+  color: #e5e7eb;
+}

@@ -83,8 +83,8 @@ export interface WeatherData {
 }
 
 export interface ForecastData {
-    calendarDayTemperatureMax: number[];
-    calendarDayTemperatureMin: number[];
+    calendarDayTemperatureMax: (number | null)[];
+    calendarDayTemperatureMin: (number | null)[];
     dayOfWeek: string[];
     expirationTimeUtc: number[];
     moonPhase: string[];
@@ -96,44 +96,48 @@ export interface ForecastData {
     moonsetTimeUtc: number[];
     narrative: string[];
     qpf: number[];
+    qpfIce?: number[];
+    qpfRain?: number[];
     qpfSnow: number[];
     sunriseTimeLocal: string[];
     sunriseTimeUtc: number[];
     sunsetTimeLocal: string[];
     sunsetTimeUtc: number[];
-    temperatureMax: number[];
-    temperatureMin: number[];
+    temperatureMax: (number | null)[];
+    temperatureMin: (number | null)[];
     validTimeLocal: string[];
     validTimeUtc: number[];
     daypart: Daypart[];
 }
 
 export interface Daypart {
-    cloudCover: number[];
-    dayOrNight: string[];
-    daypartName: string[];
-    iconCode: number[];
-    iconCodeExtend: number[];
-    narrative: string[];
-    precipChance: number[];
-    precipType: string[];
-    qpf: number[];
-    qpfSnow: number[];
+    cloudCover: (number | null)[];
+    dayOrNight: (string | null)[];
+    daypartName: (string | null)[];
+    iconCode: (number | null)[];
+    iconCodeExtend: (number | null)[];
+    narrative: (string | null)[];
+    precipChance: (number | null)[];
+    precipType: (string | null)[];
+    qpf: (number | null)[];
+    qpfIce?: (number | null)[];
+    qpfRain?: (number | null)[];
+    qpfSnow: (number | null)[];
     qualifierCode: (string | null)[];
     qualifierPhrase: (string | null)[];
-    relativeHumidity: number[];
-    snowRange: string[];
-    temperature: number[];
-    temperatureHeatIndex: number[];
-    temperatureWindChill: number[];
+    relativeHumidity: (number | null)[];
+    snowRange: (string | null)[];
+    temperature: (number | null)[];
+    temperatureHeatIndex: (number | null)[];
+    temperatureWindChill: (number | null)[];
     thunderCategory: (string | null)[];
-    thunderIndex: number[];
-    uvDescription: string[];
-    uvIndex: number[];
-    windDirection: number[];
-    windDirectionCardinal: string[];
-    windPhrase: string[];
-    windSpeed: number[];
-    wxPhraseLong: string[];
-    wxPhraseShort: string[];
+    thunderIndex: (number | null)[];
+    uvDescription: (string | null)[];
+    uvIndex: (number | null)[];
+    windDirection: (number | null)[];
+    windDirectionCardinal: (string | null)[];
+    windPhrase: (string | null)[];
+    windSpeed: (number | null)[];
+    wxPhraseLong: (string | null)[];
+    wxPhraseShort: (string | null)[];
 }

@@ -11,19 +11,20 @@ import {
   IonToolbar,
   IonRefresher,
   IonRefresherContent,
-  IonLabel,
 } from "@ionic/react"
 import { useEffect, useState } from "react"
 import { SkeletonDashboard } from "../components/SkeletonDashboard"
 import { refreshOutline } from "ionicons/icons"
 import { CurrentWeather } from "../components/CurrentWeather"
-import type { WeatherData, ForecastData } from "../data/types"
-import ForecastDisplay from "../components/ForecastDisplay"
+import type { WeatherData } from "../data/types"
+import { ErrorDisplay } from "../components/ErrorDisplay"
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"
 
 const Tab1 = () => {
   const [currentWeather, setCurrentWeather] = useState<WeatherData | null>(null)
-  const [forecast, setForecast] = useState<ForecastData | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<boolean>(false)
 
   useEffect(() => {
     fetchWeatherData()
@@ -31,24 +32,22 @@ const Tab1 = () => {
 
   const fetchWeatherData = async () => {
     setLoading(true)
+    setError(false)
     try {
-      // Fetch current weather
-      const currentResponse = await fetch("https://estacion-metereologica-server.onrender.com/api/current-weather")
+      const currentResponse = await fetch(`${API_BASE_URL}/api/current-weather`)
+      if (!currentResponse.ok) {
+        throw new Error("HTTP error " + currentResponse.status)
+      }
       const currentData = await currentResponse.json()
 
       if (currentData.observations && currentData.observations[0]) {
         setCurrentWeather(currentData)
+      } else {
+        throw new Error("No data observations found")
       }
-
-      // Fetch forecast data
-      const forecastResponse = await fetch("https://estacion-metereologica-server.onrender.com/api/forecast")
-      const forecastData = await forecastResponse.json()
-
-      if (forecastData) {
-        setForecast(forecastData)
-      }
-    } catch (error) {
-      console.error("Error fetching weather data:", error)
+    } catch (err) {
+      console.error("Error fetching current weather:", err)
+      setError(true)
     } finally {
       setLoading(false)
     }
@@ -79,18 +78,18 @@ const Tab1 = () => {
 
         {loading ? (
           <SkeletonDashboard />
+        ) : error ? (
+          <ErrorDisplay
+            title="Estación Fuera de Línea"
+            message="No pudimos conectar con la estación meteorológica en vivo. Puedes consultar el pronóstico de 5 días en la otra sección."
+            onRetry={fetchWeatherData}
+            secondaryAction={{
+              label: "Ver Pronóstico (5 Días)",
+              routerLink: "/tab2"
+            }}
+          />
         ) : (
-          <>
-            {currentWeather && <CurrentWeather currentWeather={currentWeather} />}
-            {forecast && 
-            <>
-              <IonLabel className="ion-text-center">
-                <h1>Pronóstico del Tiempo</h1>
-              </IonLabel>
-              <ForecastDisplay forecast={forecast} />
-            </>
-            }
-          </>
+          currentWeather && <CurrentWeather currentWeather={currentWeather} />
         )}
       </IonContent>
     </IonPage>
@@ -98,4 +97,3 @@ const Tab1 = () => {
 }
 
 export default Tab1
-
