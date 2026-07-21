@@ -41,7 +41,22 @@ El proyecto integra la identidad de la **Facultad Politécnica - UNE** incorpora
 - Node.js (v18 o superior)
 - npm o yarn
 
-### Pasos
+### ⚙️ Servidor API Backend (`estacion-metereologica-server`)
+
+La aplicación depende de un servidor Express/Node.js intermediario que consume las APIs de Weather Company & PWS:
+
+1. Clonar e iniciar el repositorio del servidor backend:
+   ```bash
+   git clone <URL_REPOSITORIO_SERVER>
+   cd estacion-metereologica-server
+   npm install
+   npm start
+   ```
+   El servidor correrá en `http://localhost:3000` exponiendo los endpoints `/api/current-weather` y `/api/forecast`.
+
+---
+
+### 📱 Aplicación Frontend (Este Repositorio)
 
 1. **Clonar el repositorio:**
    ```bash
