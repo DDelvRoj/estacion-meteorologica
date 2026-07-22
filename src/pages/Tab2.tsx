@@ -19,7 +19,7 @@ import { SkeletonDashboard } from "../components/SkeletonDashboard"
 import { ErrorDisplay } from "../components/ErrorDisplay"
 import "./Tab2.css"
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://estacion-metereologica-server.onrender.com"
 
 const Tab2: React.FC = () => {
   const [forecast, setForecast] = useState<ForecastData | null>(null)
