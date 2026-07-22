@@ -27,12 +27,17 @@ export const CurrentWeather: React.FC<CurrentWeatherProps> = ({ currentWeather }
       <IonCard className="ion-no-margin">
         <IonCardContent>
           <div className="ion-text-center">
+            <img
+              src="/assets/image.png"
+              alt="Facultad Politécnica UNE"
+              className="station-logo"
+            />
             <h1
               style={{
                 fontSize: "1.8rem",
                 fontWeight: "bold",
                 color: "var(--ion-color-primary)",
-                margin: "0 0 8px 0",
+                margin: "0 0 4px 0",
               }}
             >
               Estación Meteorológica FPUNE
