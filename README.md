@@ -69,8 +69,12 @@ La aplicación depende de un servidor Express/Node.js intermediario que consume 
    npm install
    ```
 
-3. **Configurar variables de entorno (opcional):**
-   Crea un archivo `.env` en la raíz si deseas cambiar la dirección del backend:
+3. **Variables de Entorno (Backend API URL):**
+   Por defecto, la aplicación está configurada para conectarse al servidor en Render (`https://estacion-metereologica-server.onrender.com`):
+   ```ts
+   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://estacion-metereologica-server.onrender.com";
+   ```
+   Si deseas probar contra tu servidor local (`http://localhost:3000`), crea o edita el archivo `.env` en la raíz:
    ```env
    VITE_API_BASE_URL=http://localhost:3000
    ```

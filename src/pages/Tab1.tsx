@@ -19,7 +19,7 @@ import { CurrentWeather } from "../components/CurrentWeather"
 import type { WeatherData } from "../data/types"
 import { ErrorDisplay } from "../components/ErrorDisplay"
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://estacion-metereologica-server.onrender.com"
 
 const Tab1 = () => {
   const [currentWeather, setCurrentWeather] = useState<WeatherData | null>(null)
